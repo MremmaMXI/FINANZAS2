@@ -133,22 +133,40 @@
       box-shadow: 0 0 0 3px #FFFFFF;
       display: none;
     }
+    #notif-blur-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      background: rgba(26, 22, 15, 0.18);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #notif-blur-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
     .notif-panel {
       position: absolute;
       right: 0;
       top: calc(100% + 12px);
       width: min(332px, calc(100vw - 36px));
-      background: rgba(255,255,255,.96);
-      border: 1px solid rgba(0,0,0,.06);
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(31, 23, 10, 0.14);
-      padding: 12px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
       opacity: 0;
       transform: translateY(-10px) scale(.985);
       pointer-events: none;
       transition: opacity .3s ease, transform .34s var(--ease-soft);
-      overflow: hidden;
+      overflow: visible;
       z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
     .notif-panel.open {
       opacity: 1;
@@ -158,17 +176,23 @@
     .notif-title {
       font-size: 13px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 0;
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: 0 4px 14px rgba(31,23,10,0.08);
     }
-    .notif-list { display: grid; gap: 8px; }
+    .notif-list { display: flex; flex-direction: column; gap: 8px; }
     .notif-item {
-      background: var(--bg);
+      background: rgba(255,255,255,.96);
       border: 1px solid rgba(0,0,0,.05);
       border-radius: 16px;
       padding: 10px 12px;
       transition: transform .26s ease, opacity .2s ease;
       touch-action: pan-y;
       will-change: transform;
+      box-shadow: 0 4px 14px rgba(31,23,10,0.08);
     }
     .notif-item.dragging { transition: none; }
     .notif-item.dismissed { transform: translateX(-115%); opacity: 0; }
@@ -184,7 +208,58 @@
       color: var(--muted);
       font-size: 13px;
       font-weight: 700;
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(31,23,10,0.08);
     }
+    .cartera-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding-bottom: 10px;
+      position: relative;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      margin: 8px 0;
+    }
+    .cartera-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+    .cartera-wallet-info { display: flex; align-items: center; gap: 10px; }
+    .cartera-icon-wrap { padding: 10px; border-radius: 14px; background: var(--bg-soft); display: grid; place-items: center; }
+    .cartera-title { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .cartera-balance { font-size: 20px; font-weight: 900; color: var(--text); margin-top: 2px; }
+    .cartera-chevron { width: 20px; height: 20px; color: var(--muted); transition: transform 0.28s var(--ease-soft); }
+    .cartera-chevron.open { transform: rotate(180deg); }
+    .cartera-body { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.34s var(--ease-soft), opacity 0.2s ease; padding: 0 14px; }
+    .cartera-body.open { max-height: 600px; opacity: 1; padding: 0 14px 10px; }
+    .cartera-section-title { font-size: 12px; font-weight: 800; color: var(--text); margin: 12px 0 8px; }
+    .cartera-modos { display: flex; gap: 8px; margin-bottom: 12px; }
+    .cartera-modo-btn { flex: 1; padding: 10px; border-radius: 14px; font-size: 13px; font-weight: 700; border: 2px solid var(--border); background: var(--bg-soft); color: var(--text); cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+    .cartera-modo-btn.active-abonar { background: var(--ok); border-color: var(--ok); color: #fff; }
+    .cartera-modo-btn.active-gastar { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .cartera-modo-btn:active { transform: scale(0.97); }
+    .cartera-coins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .cartera-coin { padding: 10px 6px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg-soft); font-size: 13px; font-weight: 800; color: var(--text); text-align: center; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+    .cartera-coin:hover { background: var(--bg); transform: translateY(-2px); }
+    .cartera-coin.selected-abonar { background: rgba(58,158,95,0.15); border-color: var(--ok); color: var(--ok); }
+    .cartera-coin.selected-gastar { background: rgba(217,79,61,0.12); border-color: var(--danger); color: var(--danger); }
+    .cartera-acumulado { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--bg-soft); border-radius: 14px; margin-bottom: 10px; }
+    .cartera-acumulado .label { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .cartera-acumulado .amount { font-size: 18px; font-weight: 900; }
+    .cartera-acumulado .amount.abonar { color: var(--ok); }
+    .cartera-acumulado .amount.gastar { color: var(--danger); }
+    .cartera-save-btn { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 14px; padding: 12px; font-size: 14px; font-weight: 800; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.28); }
+    .cartera-save-btn:active { transform: scale(0.98); }
+    .cartera-save-btn:disabled { opacity: 0.4; }
     .page-stack { position: relative; }
     .page {
       display: none;
@@ -334,17 +409,17 @@
       cursor: pointer;
       font-weight: 700;
       letter-spacing: 0.3px;
-      color: rgba(255,255,255,0.55);
+      color: rgba(60, 45, 15, 0.75);
       position: relative;
       z-index: 2;
       border: none;
       background: transparent;
       box-shadow: none;
       border-radius: 0;
-      transition: color 0.3s ease-in-out;
+      transition: color 0.35s ease;
       -webkit-tap-highlight-color: transparent;
     }
-    .nav-btn:hover { color: white; }
+    .nav-btn:hover { color: rgba(30, 20, 5, 0.9); }
     .nav-btn.active { color: #fff; font-weight: 800; }
     .nav-glider {
       position: absolute;
@@ -493,7 +568,11 @@
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       gap: 8px;
+      padding: 4px 2px;
+      border-radius: 14px;
+      transition: background 0.2s ease;
     }
+    .collapsible-header:hover { background: rgba(0,0,0,0.02); }
     .collapsible-header .chevron {
       width: 20px;
       height: 20px;
@@ -618,9 +697,15 @@
       color: white;
       text-align: left;
     }
+    .fc-logo {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+    }
     .fc-logo img {
-      width: 36px;
-      height: 36px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
       display: block;
     }
@@ -766,6 +851,7 @@
   </style>
 </head>
 <body>
+  <div id="notif-blur-overlay" onclick="closeNotifPanel()"></div>
   <div id="app">
     <header class="topbar">
       <div class="topbar-row">
@@ -785,6 +871,34 @@
 
     <div class="page-stack">
       <section id="tab-cuentas" class="page active">
+        <div class="cartera-card" id="cartera-card">
+          <div class="cartera-header-row" onclick="toggleCartera()">
+            <div class="cartera-wallet-info">
+              <div class="cartera-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+              </div>
+              <div>
+                <div class="cartera-title">Cartera · Efectivo</div>
+                <div class="cartera-balance" id="cartera-balance-display">$0.00</div>
+              </div>
+            </div>
+            <svg class="cartera-chevron" id="cartera-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="cartera-body" id="cartera-body">
+            <div class="cartera-section-title">¿Qué deseas hacer?</div>
+            <div class="cartera-modos">
+              <button class="cartera-modo-btn active-abonar" id="cartera-btn-abonar" onclick="setCarteraModo('abonar')">💰 Abonar</button>
+              <button class="cartera-modo-btn" id="cartera-btn-gastar" onclick="setCarteraModo('gastar')">💸 Gastar</button>
+            </div>
+            <div class="cartera-section-title">Billetes y monedas</div>
+            <div class="cartera-coins-grid" id="cartera-coins-grid"></div>
+            <div class="cartera-acumulado">
+              <span class="label">Total acumulado</span>
+              <span class="amount abonar" id="cartera-acumulado-amount">$0.00</span>
+            </div>
+            <button class="cartera-save-btn" id="cartera-save-btn" onclick="guardarCartera()" disabled>Guardar</button>
+          </div>
+        </div>
         <div class="section-title">Cuentas débito</div>
         <div id="accounts"></div>
         <button class="btn-outline-accent btn-full" onclick="openAddAccountModal()">+ Agregar cuenta</button>
@@ -836,6 +950,23 @@
 
         <div class="section-title">Editar tarjetas</div>
         <div id="edit-cards"></div>
+
+        <div class="section-title">Editar Cartera</div>
+        <div class="card">
+          <div class="headline" style="font-size:14px">Saldo en efectivo</div>
+          <div class="muted" style="font-size:12px;margin-top:4px">Ajusta manualmente el saldo de tu cartera.</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <input id="edit-cartera-amount" type="number" inputmode="decimal" placeholder="0.00" />
+            <button class="btn-accent" onclick="editCarteraDirecto()">Guardar</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:10px">
+          <div class="headline" style="font-size:13px">Dimensiones para imágenes de tarjetas</div>
+          <div class="muted" style="font-size:12px;margin-top:6px;line-height:1.6">
+            <strong>Imagen de fondo:</strong> 600 × 378 px (ratio 1.586:1) — JPG/PNG/WebP<br>
+            <strong>Logo de red/entidad (PNG transparente):</strong> 120 × 120 px — PNG con fondo transparente
+          </div>
+        </div>
 
         <div class="section-title">Editar plan</div>
         <div id="edit-plan"></div>
@@ -1485,7 +1616,38 @@
     }
     function getVisibleDebtAlerts() {
       const dismissed = new Set(getDismissedNotifications());
-      return getDueDebtAlerts().filter(item => !dismissed.has(item.debt.id));
+      return getAllNotifications().filter(n => !dismissed.has(n.id));
+    }
+    function getAllNotifications() {
+      const notifs = [];
+      // Existing debt alerts
+      state.debts.forEach(debt => {
+        const st = statusByDate(debt.dueDate);
+        if (st.cls === 'red' || st.cls === 'yellow') {
+          notifs.push({ id: debt.id, type: 'debt', debt, st });
+        }
+      });
+      // Payment due today / upcoming for cards
+      state.cards.forEach(card => {
+        if (!card.dueDate) return;
+        const due = new Date(card.dueDate);
+        const now = new Date();
+        const diffDays = Math.round((due - now) / 86400000);
+        const nid = 'card-due-' + card.id;
+        if (diffDays === 0) {
+          notifs.push({ id: nid, type: 'card-today', card, diffDays });
+        } else if (diffDays > 0 && diffDays <= 7) {
+          notifs.push({ id: nid, type: 'card-upcoming', card, diffDays });
+        }
+      });
+      // Low balance accounts
+      state.accounts.forEach(account => {
+        const bal = Number(account.available) || 0;
+        if (bal < 100) {
+          notifs.push({ id: 'low-' + account.id, type: 'low-balance', account });
+        }
+      });
+      return notifs;
     }
     function dismissNotification(id, node) {
       const dismissed = getDismissedNotifications();
@@ -1493,9 +1655,14 @@
       setDismissedNotifications(dismissed);
       if (node) {
         node.classList.add('dismissed');
-        setTimeout(() => renderHeader(), 220);
+        setTimeout(() => {
+          renderHeader();
+          // Auto-close blur if no more notifications
+          if (getVisibleDebtAlerts().length === 0) closeNotifPanel();
+        }, 220);
       } else {
         renderHeader();
+        if (getVisibleDebtAlerts().length === 0) closeNotifPanel();
       }
     }
     function setupNotificationSwipe() {
@@ -1537,16 +1704,34 @@
       });
     }
     function renderNotificationPanel() {
-      const due = getVisibleDebtAlerts();
+      const notifs = getVisibleDebtAlerts();
       const badge = $('#notif-badge');
-      badge.style.display = due.length ? 'block' : 'none';
-      $('#notif-list').innerHTML = due.length
-        ? due.map(item => `
-            <div class="notif-item" data-notif-id="${item.debt.id}">
-              <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><strong>${escapeHTML(item.debt.name)}</strong><span class="status ${item.st.cls}">${item.st.text}</span></div>
-              <div class="notif-meta">Vence ${formatDate(item.debt.dueDate)} · saldo ${money(item.debt.balance)}</div>
-            </div>
-          `).join('')
+      badge.style.display = notifs.length ? 'block' : 'none';
+      $('#notif-list').innerHTML = notifs.length
+        ? notifs.map(n => {
+            if (n.type === 'debt') {
+              return `<div class="notif-item" data-notif-id="${escapeHTML(n.id)}">
+                <div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><strong>${escapeHTML(n.debt.name)}</strong><span class="status ${n.st.cls}">${n.st.text}</span></div>
+                <div class="notif-meta">Vence ${formatDate(n.debt.dueDate)} · saldo ${money(n.debt.balance)}</div>
+              </div>`;
+            } else if (n.type === 'card-today') {
+              return `<div class="notif-item" data-notif-id="${escapeHTML(n.id)}">
+                <div><strong>¡Hoy vence ${escapeHTML(n.card.name)}!</strong></div>
+                <div class="notif-meta">Pago mínimo: ${money(n.card.minPayment)} · sin intereses: ${money(n.card.noInterestPayment)}</div>
+              </div>`;
+            } else if (n.type === 'card-upcoming') {
+              return `<div class="notif-item" data-notif-id="${escapeHTML(n.id)}">
+                <div><strong>Pago de ${escapeHTML(n.card.name)} en ${n.diffDays} día${n.diffDays !== 1 ? 's' : ''}</strong></div>
+                <div class="notif-meta">Pago mínimo: ${money(n.card.minPayment)} · sin intereses: ${money(n.card.noInterestPayment)}</div>
+              </div>`;
+            } else if (n.type === 'low-balance') {
+              return `<div class="notif-item" data-notif-id="${escapeHTML(n.id)}">
+                <div><strong>Saldo bajo en ${escapeHTML(n.account.name)}</strong></div>
+                <div class="notif-meta">Disponible: ${money(n.account.available)} MXN</div>
+              </div>`;
+            }
+            return '';
+          }).join('')
         : '<div class="notif-empty">Todo al día ✓</div>';
       setupNotificationSwipe();
     }
@@ -1554,14 +1739,26 @@
       renderNotificationPanel();
     }
     function openNotifPanel() {
+      const notifs = getVisibleDebtAlerts();
       $('#notif-panel').classList.add('open');
+      $('#notif-blur-overlay').classList.add('active');
+      if (notifs.length === 0) {
+        setTimeout(() => closeNotifPanel(), 1500);
+      }
     }
     function closeNotifPanel() {
       $('#notif-panel').classList.remove('open');
+      $('#notif-blur-overlay').classList.remove('active');
     }
     function toggleNotifPanel(ev) {
       if (ev) ev.stopPropagation();
-      $('#notif-panel').classList.toggle('open');
+      const isOpen = $('#notif-panel').classList.contains('open');
+      if (isOpen) {
+        closeNotifPanel();
+      } else {
+        renderNotificationPanel();
+        openNotifPanel();
+      }
     }
     function autoOpenNotifications() {
       renderHeader();
@@ -2358,15 +2555,103 @@
       setActiveNav(currentTab);
     }
 
+    // Cartera (wallet cash)
+    const CARTERA_KEY = 'finanzas_cartera_v1';
+    const CARTERA_DENOMINATIONS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+    let carteraModo = 'abonar';
+    let carteraSeleccionados = {};
+    let carteraBalance = 0;
+    function loadCarteraBalance() {
+      const stored = localStorage.getItem(CARTERA_KEY);
+      carteraBalance = stored ? parseFloat(stored) : 0;
+      updateCarteraDisplay();
+    }
+    function saveCarteraBalance() {
+      localStorage.setItem(CARTERA_KEY, carteraBalance.toString());
+    }
+    function updateCarteraDisplay() {
+      const el = $('#cartera-balance-display');
+      if (el) el.textContent = '$' + carteraBalance.toFixed(2);
+    }
+    function toggleCartera() {
+      const body = $('#cartera-body');
+      const chevron = $('#cartera-chevron');
+      const isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      chevron.classList.toggle('open', !isOpen);
+    }
+    function renderCarteraCoins() {
+      const grid = $('#cartera-coins-grid');
+      if (!grid) return;
+      grid.innerHTML = CARTERA_DENOMINATIONS.map(d => {
+        const count = carteraSeleccionados[d] || 0;
+        const selectedClass = count > 0 ? (carteraModo === 'abonar' ? 'selected-abonar' : 'selected-gastar') : '';
+        return `<div class="cartera-coin ${selectedClass}" onclick="addCarteraCoin(${d})">
+          $${d >= 1000 ? '1k' : d}<br><span style="font-size:10px;font-weight:600;opacity:0.7">${count > 0 ? 'x' + count : ''}</span>
+        </div>`;
+      }).join('');
+    }
+    function addCarteraCoin(denomination) {
+      carteraSeleccionados[denomination] = (carteraSeleccionados[denomination] || 0) + 1;
+      updateCarteraAcumulado();
+      renderCarteraCoins();
+    }
+    function updateCarteraAcumulado() {
+      const total = Object.entries(carteraSeleccionados).reduce((sum, [d, c]) => sum + parseFloat(d) * c, 0);
+      const el = $('#cartera-acumulado-amount');
+      const saveBtn = $('#cartera-save-btn');
+      if (el) { el.textContent = '$' + total.toFixed(2); el.className = 'amount ' + carteraModo; }
+      if (saveBtn) saveBtn.disabled = total === 0;
+    }
+    function setCarteraModo(modo) {
+      carteraModo = modo;
+      carteraSeleccionados = {};
+      $('#cartera-btn-abonar').className = 'cartera-modo-btn' + (modo === 'abonar' ? ' active-abonar' : '');
+      $('#cartera-btn-gastar').className = 'cartera-modo-btn' + (modo === 'gastar' ? ' active-gastar' : '');
+      renderCarteraCoins();
+      updateCarteraAcumulado();
+    }
+    function guardarCartera() {
+      const total = Object.entries(carteraSeleccionados).reduce((sum, [d, c]) => sum + parseFloat(d) * c, 0);
+      if (total === 0) return;
+      if (carteraModo === 'abonar') {
+        carteraBalance += total;
+        toast('✅ +$' + total.toFixed(2) + ' agregados a cartera');
+      } else {
+        if (total > carteraBalance) { toast('⚠️ Saldo insuficiente en cartera'); return; }
+        carteraBalance -= total;
+        toast('💸 -$' + total.toFixed(2) + ' gastados de cartera');
+      }
+      saveCarteraBalance();
+      updateCarteraDisplay();
+      carteraSeleccionados = {};
+      renderCarteraCoins();
+      updateCarteraAcumulado();
+    }
+    function editCarteraDirecto() {
+      const input = $('#edit-cartera-amount');
+      if (!input) return;
+      const val = parseFloat(input.value);
+      if (isNaN(val) || val < 0) { toast('⚠️ Ingresa un monto válido'); return; }
+      carteraBalance = val;
+      saveCarteraBalance();
+      updateCarteraDisplay();
+      input.value = '';
+      toast('✅ Saldo de cartera actualizado');
+    }
+
     syncNotificationCycle();
     installPWA();
     refresh();
+    loadCarteraBalance();
+    renderCarteraCoins();
     setupInputFocusTransitions();
     setupNav();
     document.addEventListener('click', event => {
       const panel = $('#notif-panel');
       const btn = $('#notif-btn');
-      if (!panel.contains(event.target) && !btn.contains(event.target)) closeNotifPanel();
+      const overlay = $('#notif-blur-overlay');
+      if (!panel.contains(event.target) && !btn.contains(event.target) && event.target !== overlay) closeNotifPanel();
     });
     ['new-account-name', 'new-account-available', 'new-account-saved', 'new-account-card-number', 'new-account-cardholder', 'new-account-expiry', 'new-account-cvv'].forEach(id => {
       const input = $('#' + id);
