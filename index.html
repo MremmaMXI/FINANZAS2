@@ -1372,8 +1372,8 @@
     function renderDebts() {
       $('#debts').innerHTML = state.debts.map(debt => {
         const st = statusByDate(debt.dueDate);
-        const progress = debtProgress;
         const debtProgress = debt.id === 'debt-kueski' && debt.totalPayments ? Math.min(100, ((Number(debt.paymentsMade) || 0) / Number(debt.totalPayments)) * 100) : (debt.originalBalance > 0 ? Math.min(100, ((debt.originalBalance - debt.balance) / debt.originalBalance) * 100) : 0);
+        const progress = debtProgress;
         const kueskiLine = debt.id === 'debt-kueski' ? `<div class="muted" style="font-size:12px;margin-top:4px">Pagos: ${debt.paymentsMade} de ${debt.totalPayments} realizados</div>` : '';
         const santanderNote = debt.id === 'debt-santander' ? `<div class="card" style="padding:10px;margin:10px 0 0;font-size:12px;background:var(--bg-soft)">${escapeHTML(debt.note)}</div>` : '';
         const cid = 'debt-collapse-' + debt.id;
