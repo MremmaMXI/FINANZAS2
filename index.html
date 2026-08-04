@@ -37,6 +37,10 @@
       --ease-soft: cubic-bezier(0.34, 1.1, 0.64, 1);
       --shadow-soft: 0 14px 40px rgba(52, 40, 12, 0.08);
       --accent-rgb: 201, 152, 26;
+      --ajustes-bg: #F5C518;
+      --font-size-hello: 22px;
+      --font-size-card: 13px;
+      --font-size-nav: 12px;
     }
     html, body { height: 100%; background: var(--bg); }
     body {
@@ -87,7 +91,7 @@
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 40;
+      z-index: 50;
       padding: calc(14px + var(--safe-top)) 16px 12px;
       background: rgba(255,255,255,.92);
       backdrop-filter: blur(18px) saturate(160%);
@@ -103,12 +107,11 @@
       position: relative;
     }
     .hello {
-      font-size: 22px;
+      font-size: var(--font-size-hello);
       font-weight: 800;
       letter-spacing: -.02em;
       color: var(--text);
     }
-    .notif-wrap { position: relative; }
     .notif-btn {
       width: 44px;
       height: 44px;
@@ -136,7 +139,7 @@
     #notif-blur-overlay {
       position: fixed;
       inset: 0;
-      z-index: 55;
+      z-index: 45;
       background: rgba(26, 22, 15, 0.18);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -147,6 +150,10 @@
     #notif-blur-overlay.active {
       opacity: 1;
       pointer-events: auto;
+    }
+    .notif-wrap {
+      position: relative;
+      z-index: 60;
     }
     .notif-panel {
       position: absolute;
@@ -243,12 +250,12 @@
     .cartera-body.open { max-height: 600px; opacity: 1; padding: 0 14px 10px; }
     .cartera-section-title { font-size: 12px; font-weight: 800; color: var(--text); margin: 12px 0 8px; }
     .cartera-modos { display: flex; gap: 8px; margin-bottom: 12px; }
-    .cartera-modo-btn { flex: 1; padding: 10px; border-radius: 14px; font-size: 13px; font-weight: 700; border: 2px solid var(--border); background: var(--bg-soft); color: var(--text); cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+    .cartera-modo-btn { flex: 1; padding: 10px; border-radius: 14px; font-size: var(--font-size-card); font-weight: 700; border: 2px solid var(--border); background: var(--bg-soft); color: var(--text); cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
     .cartera-modo-btn.active-abonar { background: var(--ok); border-color: var(--ok); color: #fff; }
     .cartera-modo-btn.active-gastar { background: var(--danger); border-color: var(--danger); color: #fff; }
     .cartera-modo-btn:active { transform: scale(0.97); }
     .cartera-coins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-    .cartera-coin { padding: 10px 6px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg-soft); font-size: 13px; font-weight: 800; color: var(--text); text-align: center; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+    .cartera-coin { padding: 10px 6px; border-radius: 12px; border: 2px solid var(--border); background: var(--bg-soft); font-size: var(--font-size-card); font-weight: 800; color: var(--text); text-align: center; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
     .cartera-coin:hover { background: var(--bg); transform: translateY(-2px); }
     .cartera-coin.selected-abonar { background: rgba(58,158,95,0.15); border-color: var(--ok); color: var(--ok); }
     .cartera-coin.selected-gastar { background: rgba(217,79,61,0.12); border-color: var(--danger); color: var(--danger); }
@@ -404,7 +411,7 @@
       align-items: center;
       justify-content: center;
       min-width: 0;
-      font-size: 12px;
+      font-size: var(--font-size-nav);
       padding: 0.8rem 0.4rem;
       cursor: pointer;
       font-weight: 700;
@@ -848,6 +855,83 @@
     @supports not (backdrop-filter: blur(1px)) {
       .bottom-nav, .topbar, .modal-wrap { background: rgba(255,255,255,.96); }
     }
+
+    /* ── Ajustes tab (yellow theme) ── */
+    #tab-editar {
+      background: #F5C518;
+      min-height: 100vh;
+      border-radius: 0;
+    }
+    #tab-editar .section-title {
+      color: rgba(60, 40, 0, 0.7);
+    }
+    /* Ajustes accordion rows */
+    .ajustes-accordion {
+      margin: 8px 0;
+      border-radius: 0;
+      overflow: visible;
+    }
+    .ajustes-row {
+      border-bottom: 1.5px solid rgba(255,255,255,0.55);
+    }
+    .ajustes-row:last-child {
+      border-bottom: none;
+    }
+    .ajustes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 4px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ajustes-header-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.01em;
+    }
+    .ajustes-chevron {
+      width: 20px;
+      height: 20px;
+      color: rgba(255,255,255,0.8);
+      transition: transform .28s var(--ease-soft);
+      flex-shrink: 0;
+    }
+    .ajustes-header.open .ajustes-chevron {
+      transform: rotate(180deg);
+    }
+    .ajustes-body {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .34s var(--ease-soft), opacity .2s ease;
+    }
+    .ajustes-body.open {
+      max-height: 3000px;
+      opacity: 1;
+    }
+    .ajustes-body-inner {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    /* Inside ajustes body, override inputs for white bg */
+    .ajustes-body-inner input,
+    .ajustes-body-inner select {
+      background: #FAFAF8;
+    }
+    /* Buttons inside ajustes */
+    #tab-editar .btn-outline-accent,
+    #tab-editar .btn-danger {
+      margin-top: 8px;
+    }
+    /* Bottom action buttons in ajustes */
+    .ajustes-actions {
+      padding: 0 0 8px;
+    }
   </style>
 </head>
 <body>
@@ -939,40 +1023,94 @@
       </section>
 
       <section id="tab-editar" class="page">
-        <div class="section-title">Apariencia</div>
-        <div id="edit-appearance"></div>
-
-        <div class="section-title">Editar deudas</div>
-        <div id="edit-debts"></div>
-
-        <div class="section-title">Editar cuentas</div>
-        <div id="edit-accounts"></div>
-
-        <div class="section-title">Editar tarjetas</div>
-        <div id="edit-cards"></div>
-
-        <div class="section-title">Editar Cartera</div>
-        <div class="card">
-          <div class="headline" style="font-size:14px">Saldo en efectivo</div>
-          <div class="muted" style="font-size:12px;margin-top:4px">Ajusta manualmente el saldo de tu cartera.</div>
-          <div style="display:flex;gap:8px;margin-top:10px">
-            <input id="edit-cartera-amount" type="number" inputmode="decimal" placeholder="0.00" />
-            <button class="btn-accent" onclick="editCarteraDirecto()">Guardar</button>
+        <div class="ajustes-accordion">
+          <!-- Apariencia -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-apariencia" onclick="toggleAjuste('apariencia')">
+              <span class="ajustes-header-title">Apariencia</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-apariencia">
+              <div class="ajustes-body-inner" id="edit-appearance"></div>
+            </div>
+          </div>
+          <!-- Deudas -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-deudas" onclick="toggleAjuste('deudas')">
+              <span class="ajustes-header-title">Editar deudas</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-deudas">
+              <div class="ajustes-body-inner" id="edit-debts"></div>
+            </div>
+          </div>
+          <!-- Cuentas -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-cuentas" onclick="toggleAjuste('cuentas-edit')">
+              <span class="ajustes-header-title">Editar cuentas</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-cuentas-edit">
+              <div class="ajustes-body-inner" id="edit-accounts"></div>
+            </div>
+          </div>
+          <!-- Tarjetas -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-tarjetas" onclick="toggleAjuste('tarjetas')">
+              <span class="ajustes-header-title">Editar tarjetas</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-tarjetas">
+              <div class="ajustes-body-inner" id="edit-cards"></div>
+            </div>
+          </div>
+          <!-- Cartera -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-cartera" onclick="toggleAjuste('cartera-edit')">
+              <span class="ajustes-header-title">Efectivo</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-cartera-edit">
+              <div class="ajustes-body-inner">
+                <div class="headline" style="font-size:14px">Agregar denominación personalizada</div>
+                <div class="muted" style="font-size:12px;margin-top:4px">Agrega un nuevo botón de monto al panel de efectivo.</div>
+                <div style="display:flex;gap:8px;margin-top:10px">
+                  <input id="edit-cartera-custom-denom" type="number" inputmode="decimal" placeholder="Ej: 5000" />
+                  <button class="btn-accent" onclick="addCustomDenomination()">Agregar</button>
+                </div>
+                <div id="custom-denominations-list" style="margin-top:10px"></div>
+                <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
+                <div class="headline" style="font-size:14px">Saldo en efectivo</div>
+                <div class="muted" style="font-size:12px;margin-top:4px">Ajusta manualmente el saldo de tu cartera.</div>
+                <div style="display:flex;gap:8px;margin-top:10px">
+                  <input id="edit-cartera-amount" type="number" inputmode="decimal" placeholder="0.00" />
+                  <button class="btn-accent" onclick="editCarteraDirecto()">Guardar</button>
+                </div>
+                <div class="card" style="padding:10px;margin-top:10px">
+                  <div class="headline" style="font-size:13px">Dimensiones para imágenes de tarjetas</div>
+                  <div class="muted" style="font-size:12px;margin-top:6px;line-height:1.6">
+                    <strong>Imagen de fondo:</strong> 600 × 378 px (ratio 1.586:1) — JPG/PNG/WebP<br>
+                    <strong>Logo de red/entidad (PNG transparente):</strong> 120 × 120 px — PNG con fondo transparente
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Plan -->
+          <div class="ajustes-row">
+            <div class="ajustes-header" id="aj-header-plan" onclick="toggleAjuste('plan-edit')">
+              <span class="ajustes-header-title">Editar plan</span>
+              <svg class="ajustes-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="ajustes-body" id="aj-body-plan-edit">
+              <div class="ajustes-body-inner" id="edit-plan"></div>
+            </div>
           </div>
         </div>
-        <div class="card" style="margin-top:10px">
-          <div class="headline" style="font-size:13px">Dimensiones para imágenes de tarjetas</div>
-          <div class="muted" style="font-size:12px;margin-top:6px;line-height:1.6">
-            <strong>Imagen de fondo:</strong> 600 × 378 px (ratio 1.586:1) — JPG/PNG/WebP<br>
-            <strong>Logo de red/entidad (PNG transparente):</strong> 120 × 120 px — PNG con fondo transparente
-          </div>
+        <div class="ajustes-actions">
+          <button class="btn-outline-accent btn-full" onclick="openAddAccountModal()">+ Agregar cuenta/banco</button>
+          <button class="btn-danger btn-full" style="margin-top:10px" onclick="resetSettings()">Restablecer todos los ajustes</button>
         </div>
-
-        <div class="section-title">Editar plan</div>
-        <div id="edit-plan"></div>
-
-        <button class="btn-outline-accent btn-full" onclick="openAddAccountModal()">+ Agregar cuenta/banco</button>
-        <button class="btn-danger btn-full" style="margin-top:10px" onclick="resetSettings()">Restablecer todos los ajustes</button>
       </section>
     </div>
 
@@ -981,7 +1119,7 @@
       <button class="nav-btn active" data-tab="cuentas">Cuentas</button>
       <button class="nav-btn" data-tab="deudas">Deudas</button>
       <button class="nav-btn" data-tab="plan">Plan</button>
-      <button class="nav-btn" data-tab="editar">Editar</button>
+      <button class="nav-btn" data-tab="editar">Ajustes</button>
     </nav>
   </div>
 
@@ -1052,7 +1190,7 @@
     const NOTIF_INTERVAL_MS = 60 * 60 * 1000;
     const DEFAULT_CARD_COLOR = '#C9981A';
     const DEFAULT_TEXT_COLOR = '#FFFFFF';
-    const DEFAULT_THEME = { bg: '#FAFAF8', accent: '#C9981A', chipColor: '#C9981A' };
+    const DEFAULT_THEME = { bg: '#FAFAF8', accent: '#C9981A', chipColor: '#C9981A', ajustesColor: '#F5C518', fontSize_hello: 22, fontSize_nav: 12, fontSize_card: 13 };
 
     const defaults = {
       accounts: [
@@ -1289,7 +1427,11 @@
       return {
         bg: theme && theme.bg ? theme.bg : DEFAULT_THEME.bg,
         accent: theme && theme.accent ? theme.accent : DEFAULT_THEME.accent,
-        chipColor: theme && theme.chipColor ? theme.chipColor : DEFAULT_THEME.chipColor
+        chipColor: theme && theme.chipColor ? theme.chipColor : DEFAULT_THEME.chipColor,
+        ajustesColor: theme && theme.ajustesColor ? theme.ajustesColor : '#F5C518',
+        fontSize_hello: theme && theme.fontSize_hello ? theme.fontSize_hello : 22,
+        fontSize_nav: theme && theme.fontSize_nav ? theme.fontSize_nav : 12,
+        fontSize_card: theme && theme.fontSize_card ? theme.fontSize_card : 13
       };
     }
     function hexToRgb(hex) {
@@ -1305,6 +1447,13 @@
       root.style.setProperty('--accent', theme.accent || DEFAULT_THEME.accent);
       root.style.setProperty('--accent-rgb', hexToRgb(theme.accent || DEFAULT_THEME.accent));
       root.style.setProperty('--global-chip-color', theme.chipColor || DEFAULT_THEME.chipColor);
+      const ajColor = theme.ajustesColor || '#F5C518';
+      root.style.setProperty('--ajustes-bg', ajColor);
+      const tabEditar = document.getElementById('tab-editar');
+      if (tabEditar) tabEditar.style.background = ajColor;
+      if (theme.fontSize_hello) root.style.setProperty('--font-size-hello', theme.fontSize_hello + 'px');
+      if (theme.fontSize_nav) root.style.setProperty('--font-size-nav', theme.fontSize_nav + 'px');
+      if (theme.fontSize_card) root.style.setProperty('--font-size-card', theme.fontSize_card + 'px');
       const themeMeta = $('meta[name="theme-color"]');
       if (themeMeta) themeMeta.setAttribute('content', theme.bg || DEFAULT_THEME.bg);
       const icon = walletIconDataURI(theme.accent || DEFAULT_THEME.accent);
@@ -1920,14 +2069,45 @@
     }
     function renderEditAppearance() {
       $('#edit-appearance').innerHTML = `
-        <div class="card">
+        <div style="margin-bottom:10px">
+          <div class="headline" style="font-size:14px;margin-bottom:8px">Colores del tema</div>
           <div class="appearance-grid" style="grid-template-columns:repeat(3,1fr)">
-            <div class="field"><label>Color de fondo</label><input type="color" value="${escapeHTML(currentTheme.bg)}" onchange="updateThemeColor('bg', this.value)"></div>
-            <div class="field"><label>Color de acento</label><input type="color" value="${escapeHTML(currentTheme.accent)}" onchange="updateThemeColor('accent', this.value)"></div>
-            <div class="field"><label>Color global de chips</label><input type="color" value="${escapeHTML(currentTheme.chipColor)}" onchange="updateThemeColor('chipColor', this.value)"></div>
+            <div class="field"><label>Fondo</label><input type="color" id="theme-bg-picker" value="${escapeHTML(currentTheme.bg)}" oninput="previewThemeColor('bg',this.value)"><button class="btn-accent btn-full" style="margin-top:4px;padding:6px" onclick="confirmThemeColor('bg')">✓</button></div>
+            <div class="field"><label>Acento</label><input type="color" id="theme-accent-picker" value="${escapeHTML(currentTheme.accent)}" oninput="previewThemeColor('accent',this.value)"><button class="btn-accent btn-full" style="margin-top:4px;padding:6px" onclick="confirmThemeColor('accent')">✓</button></div>
+            <div class="field"><label>Chips</label><input type="color" id="theme-chip-picker" value="${escapeHTML(currentTheme.chipColor)}" oninput="previewThemeColor('chipColor',this.value)"><button class="btn-accent btn-full" style="margin-top:4px;padding:6px" onclick="confirmThemeColor('chipColor')">✓</button></div>
           </div>
-          <div class="helper">Los cambios aplican en tiempo real y se guardan solo como apariencia.</div>
-        </div>`;
+          <div class="field" style="margin-top:8px"><label>Color de Ajustes</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="color" id="ajustes-color-picker" value="${escapeHTML(currentTheme.ajustesColor || '#F5C518')}" oninput="previewAjustesColor(this.value)" style="flex:1">
+              <button class="btn-accent" style="padding:8px 14px" onclick="confirmAjustesColor()">✓</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="headline" style="font-size:14px;margin-bottom:8px">Tamaño de fuente</div>
+          <div class="field"><label>Saludo (Hola Emanuel)</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="range" id="font-hello-range" min="14" max="36" value="${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-hello')) || 22}" oninput="previewFontSize('hello',this.value)" style="flex:1;border:none;background:transparent;box-shadow:none;padding:0">
+              <span id="font-hello-val" style="font-size:13px;font-weight:700;min-width:32px">${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-hello')) || 22}px</span>
+              <button class="btn-accent" style="padding:8px 14px" onclick="confirmFontSize('hello')">✓</button>
+            </div>
+          </div>
+          <div class="field"><label>Menú de navegación</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="range" id="font-nav-range" min="9" max="18" value="${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-nav')) || 12}" oninput="previewFontSize('nav',this.value)" style="flex:1;border:none;background:transparent;box-shadow:none;padding:0">
+              <span id="font-nav-val" style="font-size:13px;font-weight:700;min-width:32px">${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-nav')) || 12}px</span>
+              <button class="btn-accent" style="padding:8px 14px" onclick="confirmFontSize('nav')">✓</button>
+            </div>
+          </div>
+          <div class="field"><label>Dropdowns / botones de tarjeta</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="range" id="font-card-range" min="9" max="20" value="${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-card')) || 13}" oninput="previewFontSize('card',this.value)" style="flex:1;border:none;background:transparent;box-shadow:none;padding:0">
+              <span id="font-card-val" style="font-size:13px;font-weight:700;min-width:32px">${parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font-size-card')) || 13}px</span>
+              <button class="btn-accent" style="padding:8px 14px" onclick="confirmFontSize('card')">✓</button>
+            </div>
+          </div>
+        </div>
+        <div class="helper" style="margin-top:6px">Presiona ✓ para aplicar y guardar cada cambio.</div>`;
     }
     function renderEdit() {
       renderEditAppearance();
@@ -2018,6 +2198,7 @@
           </div>`;
       }).join('');
       renderEditPlan();
+      renderCustomDenomsList();
     }
     function renderEditPlan() {
       $('#edit-plan').innerHTML = state.plan.map(quincena => {
@@ -2246,7 +2427,10 @@
       else if (key === 'cardholderName') account[key] = String(value || '').trim();
       else if (key === 'name') account[key] = String(value || '').trim() || account.name;
       else account[key] = Math.max(0, Number(value) || 0);
-      refresh();
+      saveState();
+      // For visual-only changes just update the preview without full refresh
+      const visualKeys = ['cardColor', 'textColor', 'chipColor', 'cardImage', 'networkLogo', 'cardNumber', 'expiryDate', 'cvv', 'cardholderName'];
+      if (!visualKeys.includes(key)) refresh();
     }
     function editCard(id, key, value) {
       const card = state.cards.find(item => item.id === id);
@@ -2269,7 +2453,9 @@
       } else {
         card[key] = Math.max(0, Number(value) || 0);
       }
-      refresh();
+      saveState();
+      const visualKeys = ['cardColor', 'textColor', 'chipColor', 'cardImage', 'networkLogo', 'cardNumber', 'expiryDate', 'cvv', 'cardholderName'];
+      if (!visualKeys.includes(key)) refresh();
     }
     function checkSpend() {
       const amount = Math.max(0, Number($('#spend-amount').value) || 0);
@@ -2438,9 +2624,71 @@
       renderEditAppearance();
       if (key === 'accent') installPWA();
     }
+    function previewThemeColor(key, value) {
+      const preview = { ...currentTheme, [key]: value };
+      applyTheme(preview);
+    }
+    function confirmThemeColor(key) {
+      const pickerMap = { bg: 'theme-bg-picker', accent: 'theme-accent-picker', chipColor: 'theme-chip-picker' };
+      const picker = $('#' + pickerMap[key]);
+      if (!picker) return;
+      currentTheme = { ...currentTheme, [key]: picker.value };
+      applyTheme(currentTheme);
+      saveTheme();
+      if (key === 'accent') installPWA();
+      toast('✓ Color guardado');
+    }
+    function previewAjustesColor(value) {
+      document.documentElement.style.setProperty('--ajustes-bg', value);
+      const tab = $('#tab-editar');
+      if (tab) tab.style.background = value;
+    }
+    function confirmAjustesColor() {
+      const picker = $('#ajustes-color-picker');
+      if (!picker) return;
+      currentTheme = { ...currentTheme, ajustesColor: picker.value };
+      document.documentElement.style.setProperty('--ajustes-bg', picker.value);
+      const tab = $('#tab-editar');
+      if (tab) tab.style.background = picker.value;
+      saveTheme();
+      toast('✓ Color de Ajustes guardado');
+    }
+    function previewFontSize(key, value) {
+      const varMap = { hello: '--font-size-hello', nav: '--font-size-nav', card: '--font-size-card' };
+      const valEl = $('#font-' + key + '-val');
+      if (valEl) valEl.textContent = value + 'px';
+      document.documentElement.style.setProperty(varMap[key], value + 'px');
+    }
+    function confirmFontSize(key) {
+      const varMap = { hello: '--font-size-hello', nav: '--font-size-nav', card: '--font-size-card' };
+      const rangeEl = $('#font-' + key + '-range');
+      if (!rangeEl) return;
+      const value = rangeEl.value;
+      document.documentElement.style.setProperty(varMap[key], value + 'px');
+      currentTheme = { ...currentTheme, ['fontSize_' + key]: Number(value) };
+      saveTheme();
+      toast('✓ Tamaño guardado');
+    }
+    const ajusteOpenState = {};
+    function toggleAjuste(key) {
+      const headerIdMap = {
+        'apariencia': 'aj-header-apariencia',
+        'deudas': 'aj-header-deudas',
+        'cuentas-edit': 'aj-header-cuentas',
+        'tarjetas': 'aj-header-tarjetas',
+        'cartera-edit': 'aj-header-cartera',
+        'plan-edit': 'aj-header-plan'
+      };
+      const header = $('#' + (headerIdMap[key] || ('aj-header-' + key)));
+      const body = $('#aj-body-' + key);
+      if (!header || !body) return;
+      const isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      header.classList.toggle('open', !isOpen);
+    }
     function resetSettings() {
       if (!window.confirm('¿Restablecer colores, imágenes y personalización visual?')) return;
-      currentTheme = { ...DEFAULT_THEME };
+      currentTheme = { ...DEFAULT_THEME, ajustesColor: '#F5C518', fontSize_hello: 22, fontSize_nav: 12, fontSize_card: 13 };
       applyTheme(currentTheme);
       saveTheme();
       installPWA();
@@ -2557,17 +2805,27 @@
 
     // Cartera (wallet cash)
     const CARTERA_KEY = 'finanzas_cartera_v1';
+    const CARTERA_CUSTOM_KEY = 'finanzas_cartera_custom_v1';
     const CARTERA_DENOMINATIONS = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
     let carteraModo = 'abonar';
     let carteraSeleccionados = {};
     let carteraBalance = 0;
+    let carteraCustomDenoms = [];
+    function formatDenom(d) {
+      return '$' + Number(d).toLocaleString('es-MX', { maximumFractionDigits: 2 });
+    }
     function loadCarteraBalance() {
       const stored = localStorage.getItem(CARTERA_KEY);
       carteraBalance = stored ? parseFloat(stored) : 0;
+      const customStored = localStorage.getItem(CARTERA_CUSTOM_KEY);
+      carteraCustomDenoms = customStored ? JSON.parse(customStored) : [];
       updateCarteraDisplay();
     }
     function saveCarteraBalance() {
       localStorage.setItem(CARTERA_KEY, carteraBalance.toString());
+    }
+    function saveCarteraCustomDenoms() {
+      localStorage.setItem(CARTERA_CUSTOM_KEY, JSON.stringify(carteraCustomDenoms));
     }
     function updateCarteraDisplay() {
       const el = $('#cartera-balance-display');
@@ -2583,13 +2841,41 @@
     function renderCarteraCoins() {
       const grid = $('#cartera-coins-grid');
       if (!grid) return;
-      grid.innerHTML = CARTERA_DENOMINATIONS.map(d => {
+      const allDenoms = [...CARTERA_DENOMINATIONS, ...carteraCustomDenoms];
+      grid.innerHTML = allDenoms.map(d => {
         const count = carteraSeleccionados[d] || 0;
         const selectedClass = count > 0 ? (carteraModo === 'abonar' ? 'selected-abonar' : 'selected-gastar') : '';
         return `<div class="cartera-coin ${selectedClass}" onclick="addCarteraCoin(${d})">
-          $${d >= 1000 ? '1k' : d}<br><span style="font-size:10px;font-weight:600;opacity:0.7">${count > 0 ? 'x' + count : ''}</span>
+          ${formatDenom(d)}<br><span style="font-size:10px;font-weight:600;opacity:0.7">${count > 0 ? 'x' + count : ''}</span>
         </div>`;
       }).join('');
+    }
+    function addCustomDenomination() {
+      const input = $('#edit-cartera-custom-denom');
+      if (!input) return;
+      const val = parseFloat(input.value);
+      if (isNaN(val) || val <= 0) { toast('⚠️ Ingresa un monto válido'); return; }
+      if (CARTERA_DENOMINATIONS.includes(val) || carteraCustomDenoms.includes(val)) { toast('Esta denominación ya existe'); return; }
+      carteraCustomDenoms.push(val);
+      carteraCustomDenoms.sort((a, b) => a - b);
+      saveCarteraCustomDenoms();
+      renderCarteraCoins();
+      renderCustomDenomsList();
+      input.value = '';
+      toast('✅ Denominación ' + formatDenom(val) + ' agregada');
+    }
+    function removeCustomDenomination(val) {
+      carteraCustomDenoms = carteraCustomDenoms.filter(d => d !== val);
+      saveCarteraCustomDenoms();
+      renderCarteraCoins();
+      renderCustomDenomsList();
+    }
+    function renderCustomDenomsList() {
+      const el = $('#custom-denominations-list');
+      if (!el) return;
+      if (!carteraCustomDenoms.length) { el.innerHTML = '<div class="muted" style="font-size:12px">Sin denominaciones personalizadas.</div>'; return; }
+      el.innerHTML = '<div class="muted" style="font-size:12px;margin-bottom:6px">Denominaciones personalizadas:</div>' +
+        carteraCustomDenoms.map(d => `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-weight:700;font-size:14px">${formatDenom(d)}</span><button class="btn-danger" style="padding:4px 10px;font-size:11px" onclick="removeCustomDenomination(${d})">Quitar</button></div>`).join('');
     }
     function addCarteraCoin(denomination) {
       carteraSeleccionados[denomination] = (carteraSeleccionados[denomination] || 0) + 1;
