@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
   <title>Finanzas</title>
   <meta name="theme-color" content="#FAFAF8" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -14,6 +14,9 @@
   <link rel="manifest" id="manifest-link" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-y: scroll; }
+    html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; }
+    html, body { scrollbar-width: none; -ms-overflow-style: none; }
     :root {
       --bg: #FAFAF8;
       --bg-soft: #F2EFE9;
@@ -354,10 +357,10 @@
         transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
         background 0.4s ease-in-out,
         box-shadow 0.4s ease-in-out;
-      background: rgba(201, 152, 26, 0.18);
+      background: rgba(201, 152, 26, 0.55);
       box-shadow:
-        0 0 18px rgba(201, 152, 26, 0.3),
-        0 0 10px rgba(255, 235, 150, 0.2) inset;
+        0 0 22px rgba(201, 152, 26, 0.65),
+        0 0 12px rgba(255, 220, 80, 0.35) inset;
       pointer-events: none;
     }
     .bottom-nav[data-active="0"] .nav-glider { transform: translateX(0%); }
@@ -722,6 +725,14 @@
       color: black;
       font-size: 0.7em;
       letter-spacing: 3px;
+      cursor: pointer;
+      transition: opacity 0.35s ease, filter 0.35s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .fc-cvv.revealing {
+      opacity: 0.3;
+      filter: blur(3px);
     }
     .flip-toggle-btn {
       display: block;
@@ -1098,7 +1109,7 @@
     function getCardLogoHTML(networkLogo) {
       return networkLogo
         ? `<img src="${escapeHTML(networkLogo)}" alt="Logo de red">`
-        : MASTERCARD_SVG;
+        : '';
     }
     function walletIconSVG(bg = '#C9981A') {
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="${bg}"/><path fill="#fff" d="M44 62c0-8.8 7.2-16 16-16h60c8.8 0 16 7.2 16 16v10h8c11 0 20 9 20 20v38c0 11-9 20-20 20H60c-8.8 0-16-7.2-16-16V62Zm16 10h60V62H60v10Zm0 18v44h84c2.2 0 4-1.8 4-4V92c0-2.2-1.8-4-4-4H60Zm74 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20Z"/></svg>`;
@@ -1336,7 +1347,7 @@
               <div class="fc-back-content">
                 <div class="fc-mstrip"></div>
                 <div class="fc-sstrip">
-                  <span class="fc-cvv">${escapeHTML(cvvMask)}</span>
+                  <span class="fc-cvv" onclick="toggleCVV(this, '${item.id}', '${kind}')">${escapeHTML(cvvMask)}</span>
                 </div>
               </div>
             </div>
@@ -1368,6 +1379,19 @@
         el.textContent = el.textContent.includes('•') ? full : masked;
         el.classList.remove('revealing');
       }, 180);
+    }
+    function toggleCVV(el, id, tipo) {
+      const item = tipo === 'account'
+        ? state.accounts.find(a => a.id === id)
+        : state.cards.find(c => c.id === id);
+      if (!item) return;
+      const cvv = item.cvv || '';
+      el.classList.add('revealing');
+      setTimeout(() => {
+        const isMasked = el.textContent.includes('•');
+        el.textContent = isMasked ? (cvv || '•••') : (cvv ? '•'.repeat(cvv.length) : '•••');
+        el.classList.remove('revealing');
+      }, 175);
     }
     function getDebtRef(id) {
       const debt = state.debts.find(item => item.id === id);
