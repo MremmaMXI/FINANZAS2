@@ -35,16 +35,6 @@
       --shadow-soft: 0 14px 40px rgba(52, 40, 12, 0.08);
       --accent-rgb: 201, 152, 26;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0F0F0F;
-        --bg-soft: #1A1A1A;
-        --card: #1E1E1E;
-        --border: #2E2E2E;
-        --text: #F0F0F0;
-        --muted: #888880;
-      }
-    }
     html, body { height: 100%; background: var(--bg); }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
@@ -52,9 +42,6 @@
       -webkit-font-smoothing: antialiased;
       background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 72%, #FFFFFF 28%) 0%, var(--bg) 28%, var(--bg) 100%);
       transition: background .3s ease, color .3s ease;
-    }
-    body.keyboard-active .bottom-nav {
-      transform: translateX(-50%);
     }
     button, input, select { font: inherit; }
     button {
@@ -312,6 +299,7 @@
     .status.yellow { color: var(--warn); border-color: rgba(201,152,26,.28); background: rgba(201,152,26,.11); }
     .status.green { color: var(--ok); border-color: rgba(58,158,95,.28); background: rgba(58,158,95,.08); }
     .bottom-nav {
+      --bg: rgba(255, 255, 255, 0.06);
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
@@ -319,61 +307,63 @@
       z-index: 100;
       width: 100%;
       max-width: 440px;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-top: 1px solid rgba(0,0,0,0.08);
-      padding: 10px 10px calc(10px + var(--safe-bottom));
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      display: flex;
+      background: var(--bg);
+      border-radius: 1rem 1rem 0 0;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+        inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      padding: 0 0 calc(0px + var(--safe-bottom));
       pointer-events: auto;
     }
-    .nav-indicator {
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      font-size: 12px;
+      padding: 0.8rem 0.4rem;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: rgba(255,255,255,0.55);
+      position: relative;
+      z-index: 2;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+      transition: color 0.3s ease-in-out;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-btn:hover { color: white; }
+    .nav-btn.active { color: #fff; font-weight: 800; }
+    .nav-glider {
       position: absolute;
-      top: 10px;
-      height: 38px;
-      border-radius: 18px;
-      background: rgba(201,152,26,.12);
-      border: 1px solid rgba(201,152,26,.16);
-      opacity: 0;
-      transform: translateX(0);
-      transition: left .3s var(--ease-soft), width .3s var(--ease-soft), opacity .24s ease;
+      top: 0;
+      bottom: 0;
+      width: 25%;
+      border-radius: 0;
+      z-index: 1;
+      transition:
+        transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+        background 0.4s ease-in-out,
+        box-shadow 0.4s ease-in-out;
+      background: rgba(201, 152, 26, 0.18);
+      box-shadow:
+        0 0 18px rgba(201, 152, 26, 0.3),
+        0 0 10px rgba(255, 235, 150, 0.2) inset;
       pointer-events: none;
     }
-    .bottom-nav.engaged .nav-indicator { opacity: 1; }
-    .nav-btn {
-      position: relative;
-      z-index: 1;
-      padding: 10px 4px 12px;
-      border-radius: 16px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--muted);
-      box-shadow: none;
-      font-size: 12px;
-      font-weight: 700;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-    .nav-btn.active { color: var(--text); }
-    .nav-btn::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      bottom: 5px;
-      width: 5px;
-      height: 5px;
-      border-radius: 999px;
-      background: var(--accent);
-      opacity: 0;
-      transform: translateX(-50%) scale(.6);
-      transition: opacity .24s ease, transform .3s var(--ease-soft);
-    }
-    .bottom-nav.engaged .nav-btn.active::after {
-      opacity: 1;
-      transform: translateX(-50%) scale(1);
-    }
+    .bottom-nav[data-active="0"] .nav-glider { transform: translateX(0%); }
+    .bottom-nav[data-active="1"] .nav-glider { transform: translateX(100%); }
+    .bottom-nav[data-active="2"] .nav-glider { transform: translateX(200%); }
+    .bottom-nav[data-active="3"] .nav-glider { transform: translateX(300%); }
     .modal-wrap {
       position: fixed;
       inset: 0;
@@ -436,9 +426,13 @@
       font: inherit;
       letter-spacing: inherit;
       color: inherit;
-      opacity: 1;
-      transition: opacity .24s ease;
+      transition: opacity 0.4s ease, filter 0.4s ease, transform 0.3s ease;
       -webkit-tap-highlight-color: transparent;
+    }
+    .bank-card-number button.revealing {
+      opacity: 0.5;
+      filter: blur(2px);
+      transform: scale(0.97);
     }
     .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
     .color-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -577,20 +571,6 @@
     @supports not (backdrop-filter: blur(1px)) {
       .bottom-nav, .topbar, .modal-wrap { background: rgba(255,255,255,.96); }
     }
-    @media (prefers-color-scheme: dark) {
-      .topbar, .notif-panel, .notif-btn, .modal, .pay-item {
-        background: rgba(24,24,24,.92);
-        color: var(--text);
-        border-color: rgba(255,255,255,.08);
-      }
-      .notif-badge { box-shadow: 0 0 0 3px rgba(24,24,24,.92); }
-      .bottom-nav {
-        background: rgba(18,18,18,.78);
-        border-top-color: rgba(255,255,255,.08);
-      }
-      input, select { background: #151515; color: var(--text); }
-      .modal { background: var(--card); }
-    }
   </style>
 </head>
 <body>
@@ -673,9 +653,9 @@
       </section>
     </div>
 
-    <nav id="bottom-nav" class="bottom-nav">
-      <span id="nav-indicator" class="nav-indicator"></span>
-      <button class="nav-btn" data-tab="cuentas">Cuentas</button>
+    <nav id="bottom-nav" class="bottom-nav" data-active="0">
+      <span class="nav-glider"></span>
+      <button class="nav-btn active" data-tab="cuentas">Cuentas</button>
       <button class="nav-btn" data-tab="deudas">Deudas</button>
       <button class="nav-btn" data-tab="plan">Plan</button>
       <button class="nav-btn" data-tab="editar">Editar</button>
@@ -717,7 +697,7 @@
         <div class="field"><label>Color de tarjeta</label><input id="new-account-card-color" type="color" value="#C9981A" oninput="updateAddAccountPreview()"></div>
         <div class="field"><label>Color de texto</label><input id="new-account-text-color" type="color" value="#FFFFFF" oninput="updateAddAccountPreview()"></div>
       </div>
-      <div class="field"><label>Últimos 4 dígitos</label><input id="new-account-card-number" type="text" inputmode="numeric" maxlength="4" placeholder="0000" oninput="onCardNumberInput(this); updateAddAccountPreview()"></div>
+      <div class="field"><label>Número de tarjeta</label><input id="new-account-card-number" type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" oninput="onCardNumberInput(this); updateAddAccountPreview()"></div>
       <div class="field"><label>Imagen custom</label><input id="new-account-image" type="file" accept="image/*" onchange="onNewAccountImageChange(this)"></div>
       <button type="button" class="btn-full" onclick="clearNewAccountImage()">Remover foto</button>
       <div class="preview-wrap">
@@ -1055,7 +1035,6 @@
     const creditCtx = { id: null, type: null };
     const navOrder = ['cuentas', 'deudas', 'plan', 'editar'];
     let currentTab = 'cuentas';
-    let navInteracted = false;
 
     function getCurrentDebtTotal() {
       const loanDebt = state.debts.reduce((sum, debt) => sum + (Number(debt.balance) || 0), 0);
@@ -1393,8 +1372,8 @@
     function renderDebts() {
       $('#debts').innerHTML = state.debts.map(debt => {
         const st = statusByDate(debt.dueDate);
-        const progress = debtProgress;
         const debtProgress = debt.id === 'debt-kueski' && debt.totalPayments ? Math.min(100, ((Number(debt.paymentsMade) || 0) / Number(debt.totalPayments)) * 100) : (debt.originalBalance > 0 ? Math.min(100, ((debt.originalBalance - debt.balance) / debt.originalBalance) * 100) : 0);
+        const progress = debtProgress;
         const kueskiLine = debt.id === 'debt-kueski' ? `<div class="muted" style="font-size:12px;margin-top:4px">Pagos: ${debt.paymentsMade} de ${debt.totalPayments} realizados</div>` : '';
         const santanderNote = debt.id === 'debt-santander' ? `<div class="card" style="padding:10px;margin:10px 0 0;font-size:12px;background:var(--bg-soft)">${escapeHTML(debt.note)}</div>` : '';
         const cid = 'debt-collapse-' + debt.id;
@@ -1590,7 +1569,6 @@
       renderPlan();
       renderEdit();
       saveState();
-      if (navInteracted) updateNavIndicator(currentTab);
     }
 
     function openMovementModal(accountId, type) {
@@ -1817,12 +1795,12 @@
     }
     function toggleCardNumberVisibility(button) {
       const nextVisible = button.dataset.visible !== 'true';
-      button.style.opacity = '0';
+      button.classList.add('revealing');
       setTimeout(() => {
         button.textContent = nextVisible ? button.dataset.full : button.dataset.masked;
         button.dataset.visible = String(nextVisible);
-        button.style.opacity = '1';
-      }, 120);
+        button.classList.remove('revealing');
+      }, 180);
     }
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -1926,7 +1904,7 @@
     }
 
     function openModal(id) { $('#' + id).classList.add('open'); }
-    function closeModal(id) { const modal = $('#' + id); modal.classList.remove('input-engaged'); modal.classList.remove('open'); document.body.classList.remove('keyboard-active'); }
+    function closeModal(id) { const modal = $('#' + id); modal.classList.remove('input-engaged'); modal.classList.remove('open'); }
     $$('.modal-wrap').forEach(modal => modal.addEventListener('click', event => {
       if (event.target === modal) modal.classList.remove('open');
     }));
@@ -1979,26 +1957,20 @@
         navigator.serviceWorker.register(blobUrl).catch(() => {});
       }
     }
-    function updateNavIndicator(tab) {
-      const nav = $('#bottom-nav');
-      const button = $(`.nav-btn[data-tab="${tab}"]`, nav);
-      const indicator = $('#nav-indicator');
-      if (!button || !indicator) return;
-      indicator.style.width = `${Math.max(0, button.offsetWidth - 12)}px`;
-      indicator.style.left = `${button.offsetLeft + 6}px`;
-    }
     function setActiveNav(tab) {
       const nav = $('#bottom-nav');
-      nav.classList.toggle('engaged', navInteracted);
-      $$('.nav-btn').forEach(button => button.classList.toggle('active', navInteracted && button.dataset.tab === tab));
-      if (navInteracted) updateNavIndicator(tab);
+      const navBtns = $$('.nav-btn', nav);
+      navBtns.forEach(button => button.classList.toggle('active', button.dataset.tab === tab));
+      const activeBtn = navBtns.find(button => button.dataset.tab === tab);
+      if (!activeBtn) return;
+      const idx = navBtns.indexOf(activeBtn);
+      nav.setAttribute('data-active', idx);
     }
     function switchTab(tab) {
       if (!tab) return;
       const nextPage = $('#tab-' + tab);
       const currentPage = $('#tab-' + currentTab);
       if (!nextPage) return;
-      navInteracted = true;
       setActiveNav(tab);
       closeNotifPanel();
       if (tab === currentTab) return;
@@ -2020,7 +1992,6 @@
         const modalWrap = event.target.closest('.modal-wrap');
         if (!modalWrap) return;
         modalWrap.classList.add('input-engaged');
-        document.body.classList.add('keyboard-active');
       });
       document.addEventListener('focusout', event => {
         const modalWrap = event.target.closest('.modal-wrap');
@@ -2028,14 +1999,12 @@
         requestAnimationFrame(() => {
           if (!modalWrap.contains(document.activeElement)) {
             modalWrap.classList.remove('input-engaged');
-            document.body.classList.remove('keyboard-active');
           }
         });
       });
     }
     function setupNav() {
       $$('.nav-btn').forEach(button => button.addEventListener('click', () => switchTab(button.dataset.tab)));
-      window.addEventListener('resize', () => { if (navInteracted) updateNavIndicator(currentTab); });
       setActiveNav(currentTab);
     }
 
