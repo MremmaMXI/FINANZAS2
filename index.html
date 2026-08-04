@@ -367,7 +367,7 @@
     .modal-wrap {
       position: fixed;
       inset: 0;
-      z-index: 80;
+      z-index: 110;
       background: rgba(26, 22, 15, 0);
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
@@ -388,6 +388,8 @@
       transition: backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, opacity 0.3s ease, background 0.3s ease;
     }
     .modal {
+      position: relative;
+      z-index: 111;
       width: 100%;
       max-width: 440px;
       margin: 0 auto;
@@ -557,6 +559,185 @@
       color: var(--global-chip-color);
     }
     .bank-chip svg { width: 40px; height: 30px; display: block; }
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      aspect-ratio: 1.586;
+      perspective: 1000px;
+      color: white;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: rgba(0,0,0,0.4) 0px 2px 2px, rgba(0,0,0,0.3) 0px 7px 13px -3px, rgba(0,0,0,0.2) 0px -1px 0px inset;
+    }
+    .flip-card-front {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1em 1.2em;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .fc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .fc-heading {
+      font-size: 0.6em;
+      letter-spacing: .2em;
+      opacity: 0.85;
+      font-weight: 700;
+      color: white;
+      text-align: left;
+    }
+    .fc-logo img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+    }
+    .fc-middle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.3em 0;
+    }
+    .fc-chip svg, .fc-chip img {
+      width: 30px;
+      height: 30px;
+    }
+    .fc-contactless svg, .fc-contactless img {
+      width: 20px;
+      height: 20px;
+    }
+    .fc-number {
+      font-weight: bold;
+      font-size: 0.82em;
+      letter-spacing: 2.7px;
+      color: white;
+      cursor: pointer;
+      transition: opacity 0.4s ease, filter 0.4s ease;
+      text-align: center;
+      min-height: 1.3em;
+    }
+    .fc-number.revealing {
+      opacity: 0.4;
+      filter: blur(3px);
+    }
+    .fc-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .fc-valid-label {
+      font-size: 0.38em;
+      letter-spacing: .08em;
+      opacity: 0.7;
+      text-transform: uppercase;
+      color: white;
+    }
+    .fc-date {
+      font-weight: bold;
+      font-size: 0.55em;
+      letter-spacing: .15em;
+      color: white;
+    }
+    .fc-name {
+      font-weight: bold;
+      font-size: 0.55em;
+      letter-spacing: .08em;
+      color: white;
+      text-align: left;
+    }
+    .fc-balance {
+      text-align: right;
+    }
+    .fc-balance-label {
+      font-size: 0.38em;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: white;
+    }
+    .fc-balance-value {
+      font-size: 0.72em;
+      font-weight: 800;
+      color: white;
+    }
+    .fc-strip {
+      width: 100%;
+      height: 2.2em;
+      background: repeating-linear-gradient(45deg, #303030, #303030 10px, #202020 10px, #202020 20px);
+      margin-bottom: 1em;
+    }
+    .fc-back-content {
+      display: flex;
+      align-items: center;
+      padding: 0 1em;
+      gap: 1em;
+    }
+    .fc-mstrip {
+      background-color: white;
+      width: 55%;
+      height: 1.6em;
+      border-radius: 3px;
+    }
+    .fc-sstrip {
+      background-color: white;
+      width: 25%;
+      height: 1.6em;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fc-cvv {
+      font-weight: bold;
+      color: black;
+      font-size: 0.7em;
+      letter-spacing: 3px;
+    }
+    .flip-toggle-btn {
+      display: block;
+      margin: 6px auto 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 5px 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .flip-toggle-btn:active { background: var(--bg-soft); }
     .edit-inline-grid {
       display: grid;
       grid-template-columns: 1fr 110px 42px;
@@ -698,6 +879,13 @@
         <div class="field"><label>Color de texto</label><input id="new-account-text-color" type="color" value="#FFFFFF" oninput="updateAddAccountPreview()"></div>
       </div>
       <div class="field"><label>Número de tarjeta</label><input id="new-account-card-number" type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" oninput="onCardNumberInput(this); updateAddAccountPreview()"></div>
+      <div class="field"><label>Nombre en tarjeta</label><input id="new-account-cardholder" type="text" maxlength="40" placeholder="Nombre en tarjeta" oninput="updateAddAccountPreview()"></div>
+      <div class="color-grid">
+        <div class="field"><label>Fecha de vencimiento</label><input id="new-account-expiry" type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY" oninput="onExpiryDateInput(this); updateAddAccountPreview()"></div>
+        <div class="field"><label>CVV</label><input id="new-account-cvv" type="text" inputmode="numeric" maxlength="4" placeholder="•••" oninput="onCVVInput(this); updateAddAccountPreview()"></div>
+      </div>
+      <div class="field"><label>Logo red (PNG transparente)</label><input id="new-account-network-logo" type="file" accept="image/png" onchange="onNewAccountNetworkLogoChange(this)"></div>
+      <button type="button" class="btn-full" onclick="clearNewAccountNetworkLogo()">Quitar logo</button>
       <div class="field"><label>Imagen custom</label><input id="new-account-image" type="file" accept="image/*" onchange="onNewAccountImageChange(this)"></div>
       <button type="button" class="btn-full" onclick="clearNewAccountImage()">Remover foto</button>
       <div class="preview-wrap">
@@ -726,12 +914,12 @@
 
     const defaults = {
       accounts: [
-        { id: 'acc-santander', name: 'Santander Debito', available: 1.45, saved: 0.12, history: [], cardColor: '#C8102E', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardImage: '' },
-        { id: 'acc-bbva', name: 'BBVA', available: 0.98, saved: 1187.00, history: [], cardColor: '#004B9B', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardImage: '' }
+        { id: 'acc-santander', name: 'Santander Debito', available: 1.45, saved: 0.12, history: [], cardColor: '#C8102E', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardholderName: '', expiryDate: '', cvv: '', networkLogo: '', cardImage: '' },
+        { id: 'acc-bbva', name: 'BBVA', available: 0.98, saved: 1187.00, history: [], cardColor: '#004B9B', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardholderName: '', expiryDate: '', cvv: '', networkLogo: '', cardImage: '' }
       ],
       cards: [
-        { id: 'card-likeu-1', name: 'LikeU', bank: 'Santander', limit: 7000.00, spent: 6966.00, minPayment: 360.30, noInterestPayment: 6242.20, dueDate: '2026-07-24', cardColor: '#1A1A2E', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardImage: '' },
-        { id: 'card-likeu-2', name: 'LikeU Aeromexico', bank: 'Santander', limit: 7500.00, spent: 7466.87, minPayment: 0.00, noInterestPayment: 7392.87, dueDate: '2026-07-30', cardColor: '#0066CC', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardImage: '' }
+        { id: 'card-likeu-1', name: 'LikeU', bank: 'Santander', limit: 7000.00, spent: 6966.00, minPayment: 360.30, noInterestPayment: 6242.20, dueDate: '2026-07-24', cardColor: '#1A1A2E', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardholderName: '', expiryDate: '', cvv: '', networkLogo: '', cardImage: '' },
+        { id: 'card-likeu-2', name: 'LikeU Aeromexico', bank: 'Santander', limit: 7500.00, spent: 7466.87, minPayment: 0.00, noInterestPayment: 7392.87, dueDate: '2026-07-30', cardColor: '#0066CC', textColor: '#FFFFFF', chipColor: '#C9981A', cardNumber: '', cardholderName: '', expiryDate: '', cvv: '', networkLogo: '', cardImage: '' }
       ],
       debts: [
         { id: 'debt-santander', name: 'Prestamo Santander', balance: 29068.55, originalBalance: 29068.55, dueDate: '2026-08-15', quota: 1333.77, totalPaid: 1337.00, note: 'Diferido 18 meses - cobro automatico quincenal', type: 'loan', paymentsMade: 0, totalPayments: 0 },
@@ -899,6 +1087,19 @@
       if (!digits) return '•••• •••• •••• XXXX';
       return digits.replace(/(.{4})/g, '$1 ').trim();
     }
+    function sanitizeExpiryDate(value) {
+      const digits = String(value || '').replace(/\D/g, '').slice(0, 4);
+      if (digits.length <= 2) return digits;
+      return digits.slice(0, 2) + '/' + digits.slice(2);
+    }
+    function sanitizeCVV(value) {
+      return String(value || '').replace(/\D/g, '').slice(0, 4);
+    }
+    function getCardLogoHTML(networkLogo) {
+      return networkLogo
+        ? `<img src="${escapeHTML(networkLogo)}" alt="Logo de red">`
+        : MASTERCARD_SVG;
+    }
     function walletIconSVG(bg = '#C9981A') {
       return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="${bg}"/><path fill="#fff" d="M44 62c0-8.8 7.2-16 16-16h60c8.8 0 16 7.2 16 16v10h8c11 0 20 9 20 20v38c0 11-9 20-20 20H60c-8.8 0-16-7.2-16-16V62Zm16 10h60V62H60v10Zm0 18v44h84c2.2 0 4-1.8 4-4V92c0-2.2-1.8-4-4-4H60Zm74 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20Z"/></svg>`;
     }
@@ -921,6 +1122,10 @@
         textColor: DEFAULT_TEXT_COLOR,
         chipColor: currentTheme.chipColor || DEFAULT_THEME.chipColor,
         cardNumber: '',
+        cardholderName: '',
+        expiryDate: '',
+        cvv: '',
+        networkLogo: '',
         cardImage: ''
       };
     }
@@ -930,6 +1135,10 @@
         textColor: '#FFFFFF',
         chipColor: currentTheme.chipColor || DEFAULT_THEME.chipColor,
         cardNumber: '',
+        cardholderName: '',
+        expiryDate: '',
+        cvv: '',
+        networkLogo: '',
         cardImage: ''
       };
     }
@@ -979,7 +1188,13 @@
           if (!account.chipColor) account.chipColor = visual.chipColor;
           if (!('cardImage' in account)) account.cardImage = visual.cardImage;
           if (!('cardNumber' in account)) account.cardNumber = visual.cardNumber;
+          if (!('cardholderName' in account)) account.cardholderName = visual.cardholderName;
+          if (!('expiryDate' in account)) account.expiryDate = visual.expiryDate;
+          if (!('cvv' in account)) account.cvv = visual.cvv;
+          if (!('networkLogo' in account)) account.networkLogo = visual.networkLogo;
           account.cardNumber = sanitizeCardNumber(account.cardNumber);
+          account.expiryDate = sanitizeExpiryDate(account.expiryDate);
+          account.cvv = sanitizeCVV(account.cvv);
         });
         data.cards.forEach(card => {
           const visual = defaultVisualSettingsForCard(card);
@@ -988,7 +1203,13 @@
           if (!card.chipColor) card.chipColor = visual.chipColor;
           if (!('cardImage' in card)) card.cardImage = visual.cardImage;
           if (!('cardNumber' in card)) card.cardNumber = visual.cardNumber;
+          if (!('cardholderName' in card)) card.cardholderName = visual.cardholderName;
+          if (!('expiryDate' in card)) card.expiryDate = visual.expiryDate;
+          if (!('cvv' in card)) card.cvv = visual.cvv;
+          if (!('networkLogo' in card)) card.networkLogo = visual.networkLogo;
           card.cardNumber = sanitizeCardNumber(card.cardNumber);
+          card.expiryDate = sanitizeExpiryDate(card.expiryDate);
+          card.cvv = sanitizeCVV(card.cvv);
           if (card.id === 'card-likeu-1') card.name = 'LikeU';
           if (card.id === 'card-likeu-2') card.name = 'LikeU Aeromexico';
         });
@@ -1021,14 +1242,16 @@
       body.classList.toggle('open', nowOpen);
     }
     const chevronSVG = `<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
-    const chipSVG = `<svg viewBox="0 0 48 34" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="46" height="32" rx="8" fill="rgba(255,255,255,.24)" stroke="rgba(255,255,255,.48)"/><path d="M14 9V25M24 9V25M34 9V25M8 17H40" stroke="rgba(255,255,255,.55)" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+    const CHIP_SVG = `<svg viewBox="0 0 48 34" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="46" height="32" rx="8" fill="rgba(255,255,255,.24)" stroke="rgba(255,255,255,.48)"/><path d="M14 9V25M24 9V25M34 9V25M8 17H40" stroke="rgba(255,255,255,.55)" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+    const CONTACTLESS_SVG = `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" xml:space="preserve"><image width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfnAg0IEzgIwaKTAAADDklEQVRYw+1XS0iUURQ+f5qPyjQflGRFEEFK76koKGxRbWyVVLSOgsCgwjZBJJYuKogSIoOonUK4q3U0WVBWFPZYiIE6kuArG3VGzK/FfPeMM/MLt99/NuHdfPd888/57jn3nvsQWWj/VcMlvMMd5KRTogqx9iCdIjUUmcGR9ImUYowyP3xNGQJoRLVaZ2DaZf8kyjEJALhI28ELioyiwC+Rc3QZwRYyO/DH51hQgWm6DMIh10KmD4u9O16K49itVoPOAmcGAWWOepXIRScAoJZ2Frro8oN+EyTT6lWkkg6msZfMSR35QTJmjU0g15tIGSJ08ZZMJkJkHpNZgSkyXosS13TkJpZ62mPIJvOSzC1bp8vRhhCakEk7G9/o4gmZdbpsTcKu0m63FbnBP9Qrc15zbkbemfgNDtEOI8NO5L5O9VYyRYgmJayZ9nPaxZrSjW4+F6Uw9yQqIiIZwhp2huQTf6OIvCZyGM6gDJBZbyXifJXr7FZjGXsdxADxI7HUJFB6iWvsIhFpkoiIiGTJfjJfiCuJg2ZEspq9EHGVpYgzKqwJqSAOEwuJQ/pxPvE3cYltJCLdxBLiSKKIE5HxJKcTRNeadxfhDiuYw44zVs1dxKwRk/uCxIiQkxKBsSctRVAge9g1E15EHE6yRUaJecRxcWlukdRIbGFOSZCMWQA/iWauIP3slREHXPyliqBcrrD71AmzZ+rD1Mt2Yr8TZc/UR4/YtFnbijnHi3UrN9vKQ9rPaJf867ZiaqDB+czeKYmd3pNa6fuI75MiC0uXSR5aEMf7s7a6r/PudVXkjFb/SsrCRfROk0Fx6+H1i9kkTGn/E1vEmt1m089fh+RKdQ5O+xNJPUicUIjO0Dm7HwvErEr0YxeibL1StSh37STafE4I7zcBdRq1DiOkdmlTJVnkQTBTS7X1FYyvfO4piaInKbDCDaT2anLudYXCRFsQBgAcIF2/Okwgvz5+Z4tsw118dzruvIvjhTB+HOuWy8UvovEH6beitBKxDyxm9MmISKCWrzB7bSlaqGlsf0FC0gMjzTg6GgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDItMTNUMDg6MTk6NTYrMDA6MDCjlq7LAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTAyLTEzVDA4OjE5OjU2KzAwOjAw0ssWdwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wMi0xM1QwODoxOTo1NiswMDowMIXeN6gAAAAASUVORK5CYII="></image></svg>`;
+    const MASTERCARD_SVG = `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="36" height="36" viewBox="0 0 48 48"><path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path><path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path><path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path></svg>`;
 
     let currentTheme = loadTheme();
     applyTheme(currentTheme);
     let state = loadState();
     let collapseState = loadCollapseState();
     state.initialDebtTotal = state.initialDebtTotal || getCurrentDebtTotal();
-    const addAccountDraft = { cardImage: '' };
+    const addAccountDraft = { cardImage: '', networkLogo: '' };
     const movementCtx = { accountId: null, type: null };
     const transferCtx = { accountId: null, type: null };
     const debtCtx = { id: null };
@@ -1054,7 +1277,11 @@
         textColor: account.textColor || DEFAULT_TEXT_COLOR,
         chipColor: account.chipColor || currentTheme.chipColor || DEFAULT_THEME.chipColor,
         cardImage: account.cardImage || '',
-        cardNumber: sanitizeCardNumber(account.cardNumber || '')
+        cardNumber: sanitizeCardNumber(account.cardNumber || ''),
+        cardholderName: account.cardholderName || '',
+        expiryDate: sanitizeExpiryDate(account.expiryDate || ''),
+        cvv: sanitizeCVV(account.cvv || ''),
+        networkLogo: account.networkLogo || ''
       };
     }
     function getCardTheme(card) {
@@ -1064,32 +1291,83 @@
         textColor: card.textColor || visual.textColor,
         chipColor: card.chipColor || visual.chipColor,
         cardImage: card.cardImage || '',
-        cardNumber: sanitizeCardNumber(card.cardNumber || '')
+        cardNumber: sanitizeCardNumber(card.cardNumber || ''),
+        cardholderName: card.cardholderName || '',
+        expiryDate: sanitizeExpiryDate(card.expiryDate || ''),
+        cvv: sanitizeCVV(card.cvv || ''),
+        networkLogo: card.networkLogo || ''
       };
     }
-    function accountCardPreviewHTML(account, available) {
-      const theme = getAccountTheme(account);
-      const background = theme.cardImage
-        ? `linear-gradient(135deg, rgba(0,0,0,.18), rgba(0,0,0,.32)), url('${theme.cardImage}') center/cover`
-        : theme.cardColor;
+    function renderFlipCard(item, kind, amountLabel, amountValue, subtitle) {
+      const theme = kind === 'account' ? getAccountTheme(item) : getCardTheme(item);
+      const heading = kind === 'account'
+        ? `${item.name} · ${subtitle || 'Débito'}`
+        : `${item.name} · ${subtitle || item.bank || 'Crédito'}`;
+      const holder = theme.cardholderName || item.name || '';
+      const expiry = theme.expiryDate || 'MM/YY';
+      const cvvMask = theme.cvv ? '•'.repeat(theme.cvv.length) : '•••';
       return `
-        <div class="bank-card ${theme.cardImage ? 'with-image' : ''}" style="background:${background};color:${theme.textColor}">
-          <div class="bank-card-top">
-            <div>
-              <div class="bank-card-name">${escapeHTML(account.name)}</div>
-              <div class="bank-card-type">Débito</div>
+        <div class="flip-card" id="flip-${item.id}" data-id="${item.id}">
+          <div class="flip-card-inner">
+            <div class="flip-card-front" style="background-color: ${escapeHTML(theme.cardColor)}">
+              <div class="fc-top">
+                <span class="fc-heading">${escapeHTML(heading)}</span>
+                <span class="fc-logo">${getCardLogoHTML(theme.networkLogo)}</span>
+              </div>
+              <div class="fc-middle">
+                <span class="fc-chip">${CHIP_SVG}</span>
+                <span class="fc-contactless">${CONTACTLESS_SVG}</span>
+              </div>
+              <div class="fc-number" onclick="toggleCardNumber(this, '${item.id}', '${kind}')">${escapeHTML(maskCardNumber(theme.cardNumber))}</div>
+              <div class="fc-bottom">
+                <div class="fc-bottom-left">
+                  <div class="fc-valid-label">VALID THRU</div>
+                  <div class="fc-date">${escapeHTML(expiry)}</div>
+                  <div class="fc-name">${escapeHTML(holder)}</div>
+                </div>
+                <div class="fc-balance">
+                  <div class="fc-balance-label">${escapeHTML(amountLabel)}</div>
+                  <div class="fc-balance-value">${escapeHTML(amountValue)}</div>
+                </div>
+              </div>
             </div>
-            <div class="bank-chip" style="color:${theme.chipColor}">${chipSVG.replace(/rgba\(255,255,255,.24\)/g, 'currentColor').replace(/rgba\(255,255,255,.48\)/g, 'rgba(255,255,255,.48)').replace(/rgba\(255,255,255,.55\)/g, 'rgba(255,255,255,.55)')} </div>
-          </div>
-          <div class="bank-card-middle bank-card-number"><button type="button" class="fade-text" onclick="toggleCardNumberVisibility(this)" data-full="${escapeHTML(formatCardNumber(theme.cardNumber))}" data-masked="${escapeHTML(maskCardNumber(theme.cardNumber))}" data-visible="false">${escapeHTML(maskCardNumber(theme.cardNumber))}</button></div>
-          <div class="bank-card-bottom">
-            <div class="bank-card-type">Cuenta personal</div>
-            <div style="text-align:right">
-              <div class="bank-balance-label">Disponible</div>
-              <div class="bank-balance-value">${money(available)}</div>
+            <div class="flip-card-back" style="background-color: ${escapeHTML(theme.cardColor)}">
+              <div class="fc-strip"></div>
+              <div class="fc-back-content">
+                <div class="fc-mstrip"></div>
+                <div class="fc-sstrip">
+                  <span class="fc-cvv">${escapeHTML(cvvMask)}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>`;
+        </div>
+        <button class="flip-toggle-btn" onclick="toggleFlip('${item.id}')">Ver reverso</button>`;
+    }
+    function accountCardPreviewHTML(account, available) {
+      return renderFlipCard(account, 'account', 'Disponible', money(available), 'Débito');
+    }
+    function toggleFlip(id) {
+      const card = document.getElementById('flip-' + id);
+      if (!card) return;
+      const isFlipped = card.classList.toggle('flipped');
+      const btn = card.nextElementSibling;
+      if (btn && btn.classList.contains('flip-toggle-btn')) {
+        btn.textContent = isFlipped ? 'Ver frente' : 'Ver reverso';
+      }
+    }
+    function toggleCardNumber(el, id, tipo) {
+      const item = tipo === 'account'
+        ? state.accounts.find(a => a.id === id)
+        : state.cards.find(c => c.id === id);
+      if (!item) return;
+      el.classList.add('revealing');
+      setTimeout(() => {
+        const masked = maskCardNumber(item.cardNumber);
+        const full = formatCardNumber(item.cardNumber);
+        el.textContent = el.textContent.includes('•') ? full : masked;
+        el.classList.remove('revealing');
+      }, 180);
     }
     function getDebtRef(id) {
       const debt = state.debts.find(item => item.id === id);
@@ -1312,28 +1590,7 @@
       }).join('');
     }
     function creditCardPreviewHTML(card) {
-      const theme = getCardTheme(card);
-      const background = theme.cardImage
-        ? `linear-gradient(135deg, rgba(0,0,0,.18), rgba(0,0,0,.32)), url('${theme.cardImage}') center/cover`
-        : theme.cardColor;
-      return `
-        <div class="bank-card ${theme.cardImage ? 'with-image' : ''}" style="background:${background};color:${theme.textColor}">
-          <div class="bank-card-top">
-            <div>
-              <div class="bank-card-name">${escapeHTML(card.name)}</div>
-              <div class="bank-card-type">Crédito</div>
-            </div>
-            <div class="bank-chip" style="color:${theme.chipColor}">${chipSVG.replace(/rgba\(255,255,255,.24\)/g, 'currentColor')}</div>
-          </div>
-          <div class="bank-card-middle bank-card-number"><button type="button" class="fade-text" onclick="toggleCardNumberVisibility(this)" data-full="${escapeHTML(formatCardNumber(theme.cardNumber))}" data-masked="${escapeHTML(maskCardNumber(theme.cardNumber))}" data-visible="false">${escapeHTML(maskCardNumber(theme.cardNumber))}</button></div>
-          <div class="bank-card-bottom">
-            <div class="bank-card-type">${escapeHTML(card.bank || 'Crédito')}</div>
-            <div style="text-align:right">
-              <div class="bank-balance-label">Gastado / Límite</div>
-              <div class="bank-balance-value">${money(card.spent)} / ${money(card.limit)}</div>
-            </div>
-          </div>
-        </div>`;
+      return renderFlipCard(card, 'card', 'Gastado', money(card.spent), card.bank || 'Crédito');
     }
     function renderCards() {
       $('#cards').innerHTML = state.cards.map(card => {
@@ -1490,6 +1747,13 @@
                 <div class="field"><label>Color de chips</label><input type="color" value="${escapeHTML(theme.chipColor)}" onchange="editAccount('${account.id}','chipColor',this.value)"></div>
               </div>
               <div class="field"><label>Número completo</label><input type="text" inputmode="numeric" maxlength="19" value="${escapeHTML(theme.cardNumber)}" oninput="onCardNumberInput(this)" onchange="editAccount('${account.id}','cardNumber',this.value)"></div>
+              <div class="field"><label>Nombre en tarjeta</label><input type="text" value="${escapeHTML(theme.cardholderName)}" onchange="editAccount('${account.id}','cardholderName',this.value)"></div>
+              <div class="color-grid">
+                <div class="field"><label>Fecha de vencimiento</label><input type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY" value="${escapeHTML(theme.expiryDate)}" oninput="onExpiryDateInput(this)" onchange="editAccount('${account.id}','expiryDate',this.value)"></div>
+                <div class="field"><label>CVV</label><input type="text" inputmode="numeric" maxlength="4" placeholder="•••" value="${escapeHTML(theme.cvv)}" oninput="onCVVInput(this)" onchange="editAccount('${account.id}','cvv',this.value)"></div>
+              </div>
+              <div class="field"><label>Logo red (PNG transparente)</label><input type="file" accept="image/png" onchange="onEditAccountNetworkLogoChange('${account.id}', this)"></div>
+              ${theme.networkLogo ? `<button type="button" class="btn-full" onclick="removeAccountNetworkLogo('${account.id}')">Quitar logo</button>` : ''}
               <div class="field"><label>Imagen custom</label><input type="file" accept="image/*" onchange="onEditAccountImageChange('${account.id}', this)"></div>
               ${theme.cardImage ? `<button type="button" class="btn-full" onclick="removeAccountImage('${account.id}')">Remover foto</button>` : ''}
               <div>${accountCardPreviewHTML(account, account.available)}</div>
@@ -1519,6 +1783,13 @@
                 <div class="field"><label>Color de chips</label><input type="color" value="${escapeHTML(theme.chipColor)}" onchange="editCard('${card.id}','chipColor',this.value)"></div>
               </div>
               <div class="field"><label>Número completo</label><input type="text" inputmode="numeric" maxlength="19" value="${escapeHTML(theme.cardNumber)}" oninput="onCardNumberInput(this)" onchange="editCard('${card.id}','cardNumber',this.value)"></div>
+              <div class="field"><label>Nombre en tarjeta</label><input type="text" value="${escapeHTML(theme.cardholderName)}" onchange="editCard('${card.id}','cardholderName',this.value)"></div>
+              <div class="color-grid">
+                <div class="field"><label>Fecha de vencimiento</label><input type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY" value="${escapeHTML(theme.expiryDate)}" oninput="onExpiryDateInput(this)" onchange="editCard('${card.id}','expiryDate',this.value)"></div>
+                <div class="field"><label>CVV</label><input type="text" inputmode="numeric" maxlength="4" placeholder="•••" value="${escapeHTML(theme.cvv)}" oninput="onCVVInput(this)" onchange="editCard('${card.id}','cvv',this.value)"></div>
+              </div>
+              <div class="field"><label>Logo red (PNG transparente)</label><input type="file" accept="image/png" onchange="onEditCardNetworkLogoChange('${card.id}', this)"></div>
+              ${theme.networkLogo ? `<button type="button" class="btn-full" onclick="removeCardNetworkLogo('${card.id}')">Quitar logo</button>` : ''}
               <div class="field"><label>Imagen custom</label><input type="file" accept="image/*" onchange="onEditCardImageChange('${card.id}', this)"></div>
               ${theme.cardImage ? `<button type="button" class="btn-full" onclick="removeCardImage('${card.id}')">Remover foto</button>` : ''}
               <div>${creditCardPreviewHTML(card)}</div>
@@ -1747,8 +2018,11 @@
     function editAccount(id, key, value) {
       const account = state.accounts.find(item => item.id === id);
       if (!account) return;
-      if (['cardColor', 'textColor', 'chipColor', 'cardImage'].includes(key)) account[key] = value || '';
+      if (['cardColor', 'textColor', 'chipColor', 'cardImage', 'networkLogo'].includes(key)) account[key] = value || '';
       else if (key === 'cardNumber') account[key] = sanitizeCardNumber(value);
+      else if (key === 'expiryDate') account[key] = sanitizeExpiryDate(value);
+      else if (key === 'cvv') account[key] = sanitizeCVV(value);
+      else if (key === 'cardholderName') account[key] = String(value || '').trim();
       else if (key === 'name') account[key] = String(value || '').trim() || account.name;
       else account[key] = Math.max(0, Number(value) || 0);
       refresh();
@@ -1761,10 +2035,16 @@
         card[key] = value;
       } else if (key === 'name') {
         card[key] = String(value || '').trim() || card.name;
-      } else if (['cardColor', 'textColor', 'chipColor', 'cardImage'].includes(key)) {
+      } else if (['cardColor', 'textColor', 'chipColor', 'cardImage', 'networkLogo'].includes(key)) {
         card[key] = value || '';
       } else if (key === 'cardNumber') {
         card[key] = sanitizeCardNumber(value);
+      } else if (key === 'expiryDate') {
+        card[key] = sanitizeExpiryDate(value);
+      } else if (key === 'cvv') {
+        card[key] = sanitizeCVV(value);
+      } else if (key === 'cardholderName') {
+        card[key] = String(value || '').trim();
       } else {
         card[key] = Math.max(0, Number(value) || 0);
       }
@@ -1793,14 +2073,11 @@
     function onCardNumberInput(input) {
       input.value = String(input.value || '').replace(/\D/g, '').slice(0, 19);
     }
-    function toggleCardNumberVisibility(button) {
-      const nextVisible = button.dataset.visible !== 'true';
-      button.classList.add('revealing');
-      setTimeout(() => {
-        button.textContent = nextVisible ? button.dataset.full : button.dataset.masked;
-        button.dataset.visible = String(nextVisible);
-        button.classList.remove('revealing');
-      }, 180);
+    function onExpiryDateInput(input) {
+      input.value = sanitizeExpiryDate(input.value);
+    }
+    function onCVVInput(input) {
+      input.value = sanitizeCVV(input.value);
     }
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -1817,6 +2094,10 @@
         cardColor: $('#new-account-card-color').value || DEFAULT_CARD_COLOR,
         textColor: $('#new-account-text-color').value || DEFAULT_TEXT_COLOR,
         cardNumber: sanitizeCardNumber($('#new-account-card-number').value || ''),
+        cardholderName: $('#new-account-cardholder').value.trim(),
+        expiryDate: sanitizeExpiryDate($('#new-account-expiry').value || ''),
+        cvv: sanitizeCVV($('#new-account-cvv').value || ''),
+        networkLogo: addAccountDraft.networkLogo || '',
         chipColor: currentTheme.chipColor || DEFAULT_THEME.chipColor,
         cardImage: addAccountDraft.cardImage || ''
       };
@@ -1826,6 +2107,11 @@
     function clearNewAccountImage() {
       addAccountDraft.cardImage = '';
       $('#new-account-image').value = '';
+      updateAddAccountPreview();
+    }
+    function clearNewAccountNetworkLogo() {
+      addAccountDraft.networkLogo = '';
+      $('#new-account-network-logo').value = '';
       updateAddAccountPreview();
     }
     function onNewAccountImageChange(input) {
@@ -1838,6 +2124,16 @@
         })
         .catch(() => toast('No se pudo leer la imagen'));
     }
+    function onNewAccountNetworkLogoChange(input) {
+      const file = input.files && input.files[0];
+      if (!file) return clearNewAccountNetworkLogo();
+      fileToBase64(file)
+        .then(base64 => {
+          addAccountDraft.networkLogo = base64;
+          updateAddAccountPreview();
+        })
+        .catch(() => toast('No se pudo leer el logo'));
+    }
     function onEditAccountImageChange(accountId, input) {
       const file = input.files && input.files[0];
       if (!file) return;
@@ -1845,12 +2141,34 @@
         .then(base64 => editAccount(accountId, 'cardImage', base64))
         .catch(() => toast('No se pudo leer la imagen'));
     }
+    function onEditAccountNetworkLogoChange(accountId, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      fileToBase64(file)
+        .then(base64 => editAccount(accountId, 'networkLogo', base64))
+        .catch(() => toast('No se pudo leer el logo'));
+    }
     function onEditCardImageChange(cardId, input) {
       const file = input.files && input.files[0];
       if (!file) return;
       fileToBase64(file)
         .then(base64 => editCard(cardId, 'cardImage', base64))
         .catch(() => toast('No se pudo leer la imagen'));
+    }
+    function onEditCardNetworkLogoChange(cardId, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      fileToBase64(file)
+        .then(base64 => editCard(cardId, 'networkLogo', base64))
+        .catch(() => toast('No se pudo leer el logo'));
+    }
+    function removeAccountNetworkLogo(accountId) {
+      editAccount(accountId, 'networkLogo', '');
+      toast('Logo removido');
+    }
+    function removeCardNetworkLogo(cardId) {
+      editCard(cardId, 'networkLogo', '');
+      toast('Logo removido');
     }
     function removeAccountImage(accountId) {
       editAccount(accountId, 'cardImage', '');
@@ -1867,7 +2185,12 @@
       $('#new-account-card-color').value = DEFAULT_CARD_COLOR;
       $('#new-account-text-color').value = DEFAULT_TEXT_COLOR;
       $('#new-account-card-number').value = '';
+      $('#new-account-cardholder').value = '';
+      $('#new-account-expiry').value = '';
+      $('#new-account-cvv').value = '';
+      $('#new-account-network-logo').value = '';
       $('#new-account-image').value = '';
+      addAccountDraft.networkLogo = '';
       addAccountDraft.cardImage = '';
       updateAddAccountPreview();
       openModal('modal-add-account');
@@ -1879,8 +2202,11 @@
       const cardColor = $('#new-account-card-color').value || DEFAULT_CARD_COLOR;
       const textColor = $('#new-account-text-color').value || DEFAULT_TEXT_COLOR;
       const cardNumber = sanitizeCardNumber($('#new-account-card-number').value || '');
+      const cardholderName = $('#new-account-cardholder').value.trim();
+      const expiryDate = sanitizeExpiryDate($('#new-account-expiry').value || '');
+      const cvv = sanitizeCVV($('#new-account-cvv').value || '');
       if (!name) return toast('Escribe el nombre');
-      state.accounts.push({ id: uid(), name, available, saved, history: [], cardColor, textColor, chipColor: currentTheme.chipColor || DEFAULT_THEME.chipColor, cardNumber, cardImage: addAccountDraft.cardImage || '' });
+      state.accounts.push({ id: uid(), name, available, saved, history: [], cardColor, textColor, chipColor: currentTheme.chipColor || DEFAULT_THEME.chipColor, cardNumber, cardholderName, expiryDate, cvv, networkLogo: addAccountDraft.networkLogo || '', cardImage: addAccountDraft.cardImage || '' });
       closeModal('modal-add-account');
       refresh();
     }
@@ -2018,7 +2344,7 @@
       const btn = $('#notif-btn');
       if (!panel.contains(event.target) && !btn.contains(event.target)) closeNotifPanel();
     });
-    ['new-account-name', 'new-account-available', 'new-account-saved', 'new-account-card-number'].forEach(id => {
+    ['new-account-name', 'new-account-available', 'new-account-saved', 'new-account-card-number', 'new-account-cardholder', 'new-account-expiry', 'new-account-cvv'].forEach(id => {
       const input = $('#' + id);
       if (input) input.addEventListener('input', updateAddAccountPreview);
     });
